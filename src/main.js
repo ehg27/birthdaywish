@@ -99,7 +99,7 @@ const CONFIG = {
     // message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
     // message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
     message: "Dear Xi Ze,\n\nHow I wish I had the chance to\nmake it better for you, to turn\nover a new leaf so that you can\nbe with a version of me that\nmakes you happy. However it may\nbe, I would still be willing to\ngive it another shot. Let me know\nwhen you are ready and let's get\ncoffee together and start fresh again.\n\n- Ehung\n12/2/2026",
-    position: { x: 0.2, y: 6.05, z: 3.4 }, 
+    position: { x: 0.2, y: 6.05, z: 3 }, 
     rotation: { x: -1.6, y: 0, z: 0.5 },
     scale: { x: 1, y: 1.5 }
   },
@@ -559,14 +559,16 @@ function init() {
       // attemptPlay();
       
       // Fallback: retry on first interaction
-      // const retryPlay = () => {
-      //   if (!bgm.isPlaying && bgm.buffer) {
-      //     attemptPlay();
-      //   }
-      // };
+      const retryPlay = () => {
+        if (!bgm.isPlaying && bgm.buffer) {
+          attemptPlay();
+        }
+      };
       
       document.addEventListener('click', retryPlay, { once: true });
-      document.addEventListener('keydown', retryPlay, { once: true });
+      // document.addEventListener('keydown', retryPlay, { once: true });
+
+      
     },
     // Progress callback
     (xhr) => {
@@ -600,19 +602,21 @@ function init() {
       startScreen.style.display = 'none';
     }, 500);
     
-    // Resume audio context (for BGM)
-    if (THREE.AudioContext.getContext().state === 'suspended') {
-      THREE.AudioContext.getContext().resume();
-    }
-    
-    // Start BGM if it's not playing
+   const audioContext = THREE.AudioContext.getContext();
+  if (audioContext.state === 'suspended') {
+    audioContext.resume().then(() => {
+      if (window.bgm && !window.bgm.isPlaying && window.bgm.buffer) {
+        window.bgm.play();
+        console.log('🎵 BGM Started after resume');
+      }
+    });
+  } else {
     if (window.bgm && !window.bgm.isPlaying && window.bgm.buffer) {
       window.bgm.play();
       console.log('🎵 BGM Started');
     }
-    
-    console.log('🎮 Game Started');
-  });
+  }
+});
   
   // Store bgm globally so start screen can access it
   window.bgm = bgm;
