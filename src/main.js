@@ -97,10 +97,11 @@ const CONFIG = {
 
   note: {
     // message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
-    message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
+    // message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
+    message: "Dear Xi Ze,\n\nHow I wish I had the chance to\nmake it better for you, to turn\nover a new leaf so that you can\nbe with a version of me that\nmakes you happy. However it may\nbe, I would still be willing to\ngive it another shot. Let me know\nwhen you are ready and let's get\ncoffee together and start fresh again.\n\n- Ehung\n12/2/2026",
     position: { x: 0.2, y: 6.05, z: 3.4 }, 
     rotation: { x: -1.6, y: 0, z: 0.5 },
-    scale: { x: 1.2, y: 0.8 }
+    scale: { x: 1, y: 1.5 }
   },
 }
 
@@ -108,7 +109,7 @@ function createNote(scene, config) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.width = 512;
-  canvas.height = 512;
+  canvas.height = 812;
 
   // Background - Paper texture feel
   context.fillStyle = '#fff9e6'; 
