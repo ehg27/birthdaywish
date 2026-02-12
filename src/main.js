@@ -96,7 +96,8 @@ const CONFIG = {
 },
 
   note: {
-    message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
+    // message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
+    message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
     position: { x: 0.2, y: 6.05, z: 3.4 }, 
     rotation: { x: -1.6, y: 0, z: 0.5 },
     scale: { x: 1.2, y: 0.8 }
