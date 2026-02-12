@@ -7,6 +7,8 @@ import { PointerLockControls } from 'three/addons/controls/PointerLockControls.j
 // ============================================
 // CONFIGURATION
 // ============================================
+
+
 const CONFIG = {
   moveSpeed: 0.2,
   camera: {
@@ -90,8 +92,54 @@ const CONFIG = {
     path: '/models/flower1.glb',
     position: {x: 0.4, y: 6.3, z: 2.2},
     scale: {x: 10, y: 10,z: 10},
-    rotation: {x: 0, y: 1.3,z: 0},
-}}
+    rotation: {x: 0, y: 1.3,z: 0}
+},
+
+  note: {
+    message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
+    position: { x: 0.2, y: 6.05, z: 3.4 }, 
+    rotation: { x: -1.6, y: 0, z: 0.5 },
+    scale: { x: 1.2, y: 0.8 }
+  },
+}
+
+function createNote(scene, config) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = 512;
+  canvas.height = 512;
+
+  // Background - Paper texture feel
+  context.fillStyle = '#fff9e6'; 
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Text Style
+  context.fillStyle = '#2c3e50';
+  context.font = 'italic 28px Georgia';
+  context.textAlign = 'center';
+
+  // Handle multi-line text
+  const lines = config.message.split('\n');
+  lines.forEach((line, i) => {
+    context.fillText(line, canvas.width / 2, 150 + (i * 45));
+  });
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const geometry = new THREE.PlaneGeometry(config.scale.x, config.scale.y);
+  const material = new THREE.MeshPhongMaterial({ 
+    map: texture, 
+    side: THREE.DoubleSide,
+    shininess: 10
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(config.position.x, config.position.y, config.position.z);
+  mesh.rotation.set(config.rotation.x, config.rotation.y, config.rotation.z);
+  
+  scene.add(mesh);
+}
+
+
 
 
 function loadCandleWithLight(scene, modelConfig) {
@@ -232,6 +280,8 @@ function createCamera() {
   camera.position.set(x, y, z);
   return camera;
 }
+
+
 
 function createRenderer() {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -577,6 +627,7 @@ function init() {
   loadVideoFrame(scene,CONFIG.framefunnyVid);
   loadModel(scene,CONFIG.flowers);
   loadCandleWithLight(scene, CONFIG.candle);
+  createNote(scene, CONFIG.note);
 
   // 4. Controls & Loop
   const keyboardControls = new KeyboardControls();
