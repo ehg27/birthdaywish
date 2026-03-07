@@ -625,6 +625,7 @@ function init() {
 
 
   // 3. Load Models & Video
+  //testing
   setupLighting(scene);
   loadModel(scene, CONFIG.framez);
   loadModel(scene, CONFIG.thearc);
