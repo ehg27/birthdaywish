@@ -61,18 +61,18 @@ const CONFIG = {
 
   frame2: {
     path: '/models/frame2.glb',
-    videoPath: "/videos/klcc.mp4",
-    position: {x: 0.3, y: 6, z: 1},
+    videoPath: "/videos/IMG_3768.mp4", // cimb photo, not klcc anymore
+    position: {x: 0.6, y: 6, z: 1},
     rotation: {x: 0, y: -0.15, z: 0},
-    scale: {x: 0.7, y: 0.7,z: 0.7}
+    scale: {x: 1.2, y: 0.7,z: 0.7}
   },
 
   framefunnyVid: {
     path: '/models/frame2.glb',
-    videoPath: "/videos/funnyVid.mp4" ,
+    videoPath: "/videos/IMG_9749.mov" , // not funnyVid anymore.. (orchestra)
     position: {x: -1.5, y: 6, z: 1},
     rotation: {x: 0, y: 0.2, z: 0},
-    scale: {x: 0.6, y: 0.6,z: 0.6}
+    scale: {x: 0.8, y: 0.8,z: 0.8}
   },
 
   thearc: {
@@ -98,7 +98,8 @@ const CONFIG = {
   note: {
     // message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
     // message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
-    message: "Dear Xi Ze,\n\nHow I wish I had the chance to\nmake it better for you, to turn\nover a new leaf so that you can\nbe with a version of me that\nmakes you happy. However it may\nbe, I would still be willing to\ngive it another shot. Let me know\nwhen you are ready and let's get\ncoffee together and start fresh again.\n\n- Ehung\n12/2/2026",
+    // message: "Dear Xi Ze,\n\nHow I wish I had the chance to\nmake it better for you, to turn\nover a new leaf so that you can\nbe with a version of me that\nmakes you happy. However it may\nbe, I would still be willing to\ngive it another shot. Let me know\nwhen you are ready and let's get\ncoffee together and start fresh again.\n\n- Ehung\n12/2/2026",
+    message: "Dear Ehung,  \n\nHappy Birthday! Wishing you a \nday filled with joy, laughter,\nand everything that makes you\nhappiest. May the year ahead bring\nyou success, love, and\nwonderful memories!\n\n Sincerely,\nEhung",
     position: { x: 0.2, y: 6.05, z: 3 }, 
     rotation: { x: -1.6, y: 0, z: 0.5 },
     scale: { x: 1, y: 1.5 }
@@ -109,7 +110,7 @@ function createNote(scene, config) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.width = 512;
-  canvas.height = 812;
+  canvas.height = 712;
 
   // Background - Paper texture feel
   context.fillStyle = '#fff9e6'; 
@@ -212,7 +213,7 @@ function loadVideoFrame(scene, modelConfig) {
   document.addEventListener('click', () => {
     if (video.muted) {
       video.muted = false;
-      video.volume = 0.04;
+      video.volume = 0.0;
       console.log('🔊 Video unmuted on click');
     }
   }, { once: true });
@@ -627,7 +628,7 @@ function init() {
   // 3. Load Models & Video
   //testing
   setupLighting(scene);
-  loadModel(scene, CONFIG.framez);
+  // loadModel(scene, CONFIG.framez);
   loadModel(scene, CONFIG.thearc);
   loadModel(scene, CONFIG.snoop);
   loadVideoFrame(scene, CONFIG.frame2);
