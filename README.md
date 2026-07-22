@@ -2,8 +2,6 @@
 
 A small interactive 3D scene built as a birthday gift — a table set with photo frames, a candle, flowers, a Snoopy figurine, and a handwritten note, rendered in the browser and walkable in first person.
 
-![Scene preview](preview.png)
-
 ## What it is
 
 This is a personal, walk-around 3D birthday card. Instead of a flat image or video, the birthday message lives inside a small 3D room you can explore:
