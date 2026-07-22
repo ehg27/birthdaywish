@@ -61,15 +61,17 @@ const CONFIG = {
 
   frame2: {
     path: '/models/frame2.glb',
-    videoPath: "/videos/IMG_3768.mp4", // cimb photo, not klcc anymore
+    // videoPath: "/videos/IMG_3768.mp4", // cimb photo, not klcc anymore
+    videoPath: "/videos/ddd.mp4", // boat
     position: {x: 0.6, y: 6, z: 1},
-    rotation: {x: 0, y: -0.15, z: 0},
-    scale: {x: 1.2, y: 0.7,z: 0.7}
+    rotation: {x: 0, y: -0.25, z: 0},
+    scale: {x: 1.4, y: 0.7,z: 1}
   },
 
   framefunnyVid: {
     path: '/models/frame2.glb',
-    videoPath: "/videos/IMG_9749.mov" , // not funnyVid anymore.. (orchestra)
+    // videoPath: "/videos/IMG_9749.mov" , // not funnyVid anymore.. (orchestra)
+    videoPath: "/videos/IMG_5285.mp4" , // family
     position: {x: -1.5, y: 6, z: 1},
     rotation: {x: 0, y: 0.2, z: 0},
     scale: {x: 0.8, y: 0.8,z: 0.8}
@@ -96,10 +98,7 @@ const CONFIG = {
 },
 
   note: {
-    // message: "Dear Xi Ze,\n\nI would like for us to start over again.\nWhen you are ready, let's go out for \ncoffee! I'll be here waiting for you.\n\n- Ehung",
-    // message: "Dear Xi Ze,\n\nI'm missing you a lot today.\n\n- Ehung\n12/2/2026",
-    // message: "Dear Xi Ze,\n\nHow I wish I had the chance to\nmake it better for you, to turn\nover a new leaf so that you can\nbe with a version of me that\nmakes you happy. However it may\nbe, I would still be willing to\ngive it another shot. Let me know\nwhen you are ready and let's get\ncoffee together and start fresh again.\n\n- Ehung\n12/2/2026",
-    message: "Dear Ehung,  \n\nHappy Birthday! Wishing you a \nday filled with joy, laughter,\nand everything that makes you\nhappiest. May the year ahead bring\nyou success, love, and\nwonderful memories!\n\n Sincerely,\nEhung",
+    message: "Dear Mummy,  \n\nHappy Birthday! Wishing you a \nday filled with joy, laughter,\nand everything that makes you\nhappiest. May the year ahead bring\nyou success, love, and\nwonderful memories!\n\n Sincerely,\nEhung",
     position: { x: 0.2, y: 6.05, z: 3 }, 
     rotation: { x: -1.6, y: 0, z: 0.5 },
     scale: { x: 1, y: 1.5 }
@@ -257,6 +256,81 @@ function loadVideoFrame(scene, modelConfig) {
     scene.add(model);
   });
 }
+
+function loadVideoFramez(scene, modelConfig) {
+  const video = document.createElement('video');
+  video.src = modelConfig.videoPath;
+  video.loop = true;
+  video.muted = true; // Start muted (guaranteed to work)
+  video.playsInline = true; 
+  video.crossOrigin = "anonymous";
+  video.preload = "auto";
+  
+  // Play immediately (will work because muted)
+  video.play()
+    .then(() => {
+      console.log('✅ Video playing (muted)');
+      
+      // Unmute after 100ms
+      // setTimeout(() => {
+      //   video.muted = false;
+      //   video.volume = 0.03;
+      //   console.log('🔊 Video unmuted');
+      // }, 100);
+    })
+    .catch(err => {
+      console.log('❌ Video failed:', err);
+    });
+  
+  // Fallback: ensure unmute on interaction
+  document.addEventListener('click', () => {
+    if (video.muted) {
+      video.muted = false;
+      video.volume = 0.0;
+      console.log('🔊 Video unmuted on click');
+    }
+  }, { once: true });
+
+  // Create texture and load model (same as before)
+  const videoTexture = new THREE.VideoTexture(video);
+  videoTexture.colorSpace = THREE.SRGBColorSpace;
+  videoTexture.flipY = false;
+
+  const loader = new GLTFLoader();
+  loader.load(modelConfig.path, (gltf) => {
+    const model = gltf.scene;
+
+    model.traverse((child) => {
+      if (child.isMesh && child.material.name === 'Material.001') {
+        child.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+        videoTexture.wrapS = videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+
+        const myZoom = 1.7;
+        const myOffsetX = -0.12;
+        const myOffsetY = 0;
+
+        const videoAspect = 16 / 9;
+        const frameAspect = 4 / 3;
+        const ratio = 5/9
+
+        videoTexture.repeat.set(myZoom, myZoom * ratio);
+        videoTexture.offset.set(
+          (1 - videoTexture.repeat.x) / 2 + myOffsetX,
+          (1 - videoTexture.repeat.y) / 2 + myOffsetY
+        );
+      }
+    });
+
+    model.position.set(modelConfig.position.x, modelConfig.position.y, modelConfig.position.z);
+    model.scale.set(modelConfig.scale.x, modelConfig.scale.y, modelConfig.scale.z);
+    if (modelConfig.rotation) {
+      model.rotation.set(modelConfig.rotation.x, modelConfig.rotation.y, modelConfig.rotation.z);
+    }
+
+    scene.add(model);
+  });
+}
+
 
 // ============================================
 // SCENE SETUP
@@ -631,7 +705,7 @@ function init() {
   // loadModel(scene, CONFIG.framez);
   loadModel(scene, CONFIG.thearc);
   loadModel(scene, CONFIG.snoop);
-  loadVideoFrame(scene, CONFIG.frame2);
+  loadVideoFramez(scene, CONFIG.frame2);
   loadVideoFrame(scene,CONFIG.framefunnyVid);
   loadModel(scene,CONFIG.flowers);
   loadCandleWithLight(scene, CONFIG.candle);
@@ -651,4 +725,4 @@ function init() {
 }
 
 // Start the application
-// init();
+init();
