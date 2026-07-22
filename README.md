@@ -1,4 +1,4 @@
-# Happy Birthday Mummy!! 🎂
+# Birthday Wish 🎂
 
 A small interactive 3D scene built as a birthday gift — a table set with photo frames, a candle, flowers, a Snoopy figurine, and a handwritten note, rendered in the browser and walkable in first person.
 
